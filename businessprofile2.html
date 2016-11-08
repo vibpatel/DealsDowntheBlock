@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+
+
+<html>
+
+<head>Business Profile
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+<link rel="stylesheet" type="text/css" href="css/style.css">
+      <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+      <script type="text/javascript"></script>
+
+
+  <script>
+
+  function myfunction(){
+      console.log('here');
+      $.ajax({
+
+        url:'http://dealsdowntheblock.000webhostapp.com/businessprofile.php',
+
+        data:{
+
+          user: localStorage.getItem("username")
+
+        },
+
+        error: function(data){
+
+          console.log(data);
+
+        },
+
+        dataType: 'json',
+
+        success: function(data){
+          for(var i = 0; i < data.length; i++) {
+            // console.log('Data[i] username: ' + data[i].username + ' ---- localStorage: ' + localStorage.getItem('username'));
+            if(data[i].username == localStorage.getItem("username")) {
+              document.getElementById("idwelcome").innerHTML = "Welcome, " + data[i].username
+              localStorage.setItem('bid', data[i].businessid);
+              document.getElementById("businessname").value = data[i].businessname;
+              document.getElementById("businesstype").value = data[i].businesstype;
+              document.getElementById("address").value = data[i].Address;
+              $.ajax({
+                  url:'http://dealsdowntheblock.000webhostapp.com/dealinfo.php',
+                  error: function(data){
+                    console.log(data);
+                  },
+                  dataType: 'json',
+                  success: function(data2){
+                    var index = 1;
+                    for(var i = 0; i < data2.length; i++) {
+                      // console.log('Data[i] username: ' + data[i].username + ' ---- localStorage: ' + localStorage.getItem('username'));
+                      if(data2[i].businessid == localStorage.getItem("bid")) {
+                        console.log(data2[i]);
+                        document.getElementById("d" + index).value = data2[i]["deal description"];
+                        index++;
+                        
+                      }
+                    }
+
+                  },
+                  type: 'GET'
+            });
+            }
+          }
+
+        },
+        type: 'POST'
+	});
+
+  }
+
+
+
+  </script>
+
+
+<title id="title"><b>Business Profile</b></title>
+</head>
+
+
+<body onload="myfunction()">
+<nav class="w3-sidenav" style="display:none" id="mySidenav">
+      <a href="javascript:void(0)" onclick="w3_close()" class="idnav">Close &times;</a>
+      <a href="dashboard.html" id="idnav">Home</a>
+      <a href="#" id="idnav">Profile</a>
+      <a href="#" id="idnav">Settings</a>
+      <a href="logout.html"id="idnav">Logout</a>
+    </nav>
+
+    <header class="w3-container" style="background-color:#F8F9F9;">
+      <span id="opennav" onclick="w3_open()">&#9776;</span><!--nav button-->
+      <h1 id="idwelcome"></h1>
+    </header>
+    <!--Displays Deals-->
+    <h2 style="font-family:'Times New Roman'">Profile</h2>
+    <div id="mainDash">
+    </div>
+      <script>
+      function w3_open() {
+          document.getElementById("mySidenav").style.display = "block";
+      }
+      function w3_close() {
+          document.getElementById("mySidenav").style.display = "none";
+      }
+      </script>
+
+  <div id="loginmain">
+
+<p><br>Business name:</br></p>
+
+<input type="text" name="businessname" id="businessname">
+
+<p><br> Businesstype: </br></p>
+
+<input type="text" name="businesstype" id="businesstype">
+
+<p><br> Address: </br></p>
+
+<input type="text" name="address" id="address">
+
+<p><br> Discount1: </br></p>
+
+<input type="text" id="d1">
+
+<p><br> Discount2: </br></p>
+
+<input type="text" id="d2">
+
+<p><br> Discount3: </br></p>
+
+<input type="text" id="d3">
+
+<button onclick="myfunction()">Submit</button>
+
+</div>
+
+
+
+</body>
+
+</html>
+

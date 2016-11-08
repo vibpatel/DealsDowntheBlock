@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+      <link rel="stylesheet" type="text/css" href="css/style.css">
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+      <script type="text/javascript">
+
+        function myFunction() {
+          //console.log('here');
+          $.ajax({
+              url: 'http://dealsdowntheblock.000webhostapp.com/login.php',
+              data: {
+                  user: $('#iduser').val(),
+                  pass: $('#idpass').val()
+                  //user: document.getElementById("iduser").value,
+                  //pass: document.getElementById("idpass").value
+              },
+              error: function(data) {
+               console.log(data);
+              },
+              dataType: 'json',
+              success: function(data) {
+
+                if(data.length > 0) {
+                  console.log(data);
+                  localStorage.setItem('username', data[0].Username);
+                  localStorage.setItem('userType', data[0].UserType);
+                  window.location.href = (data[0].UserType == 'business') ? "businessprofile2.html" : "dashboard.html";
+                }
+
+
+                  //console.log(data.locations[1].street + ", " + data.locations[1].adminArea5 + ", " + data.locations[1].adminArea3 + " " + data.locations[1].postalCode);
+                  //console.log(data.distance[1]);
+              },
+              type: 'POST'
+          });
+        }
+
+      </script>
+  </head>
+  <body>
+    <h2 style="color:0B4E10;">Deals Down the Block Login</h2>
+    <div class="form">
+      <pre> <span id="idform1">Username</span></pre><br><input type="text" name="USERNAME" placeholder="Username" id="iduser"/><br>
+      <pre> <span id="idform2">Password</span></pre><br><input type="password" name="PASSWORD" placeholder="Password" id="idpass"/><br>
+      <br><button onclick="myFunction()" value="Login">Login</button>
+  </div>
+  <a href="newinfo.html" style="text-align:center;">Lost your username or password?</a>
+  </body>
+</html>

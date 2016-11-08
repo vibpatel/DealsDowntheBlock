@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DashBoard</title>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+      <link rel="stylesheet" type="text/css" href="css/style.css">
+      <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+      <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
+      <script src="https://www.mapquestapi.com/sdk/leaflet/v2.2/mq-map.js?key=JeRWA9HfVKgYP3oAH3WYim7QjgSj9iEH"></script>
+      <script src="https://www.mapquestapi.com/sdk/leaflet/v2.2/mq-geocoding.js?key=JeRWA9HfVKgYP3oAH3WYim7QjgSj9iEH"></script>
+      <script>
+
+        var watchID = null;
+        var pause = false;
+        setTimeout(function(){
+            document.addEventListener("deviceready", onDeviceReady, false);
+        },4000);
+        function onDeviceReady() {
+          var options = { enableHighAccuracy: true };
+          watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
+            
+        }
+
+        function onSuccess(position) {
+                var test = '';
+                $.ajax({
+                    url: 'http://dealsdowntheblock.000webhostapp.com/businessinfo.php',
+                    error: function(data) {
+                     console.log(data);
+                    },
+                    dataType: 'json',
+                    success: function(data2) {
+                        //console.log(data);
+                        var index = 0;
+                        for(var i = 0; i < data2.length; i++) {
+                            localStorage.setItem('bid', data2[i].businessid);
+                            $.ajax({
+                                url: 'http://www.mapquestapi.com/directions/v2/routematrix?key=JeRWA9HfVKgYP3oAH3WYim7QjgSj9iEH',
+                                data: {
+                                    from: position.coords.latitude + ", " + position.coords.longitude,
+                                    to: data2[i].Address
+                                },
+                                error: function() {
+                                 console.log('error');
+                                },
+                                dataType: 'json',
+                                success: function(data) {
+                                  $.ajax({
+                                    url: 'http://dealsdowntheblock.000webhostapp.com/dealinfo.php',
+                                    error: function(data) {
+                                     console.log(data);
+                                    },
+                                    dataType: 'json',
+                                    success: function(data3) {
+                                      if(pause != true) {
+                                        var element = document.getElementById('mainDash');
+                                        //console.log(data3);
+                                        //console.log(element.innerHTML);
+                                        console.log(localStorage.getItem('bid'));
+
+                                        for(var j = 0; j < data3.length; j++) {
+                                          if(data3[j].businessid == data2[index].businessid) {
+                                        var element2 = "<button class='accordion'>" + data2[index].businessname + "</button><div class='panel'><table><tr><td class='discount'>" + data3[j]["deal description"] + "</td><td class='discount'>" + data3[j + 1]["deal description"] + "</td><td class='discount'>" + data3[j + 2]["deal description"] + "</td></tr></table><p>" + data2[index].Address + "</p><div id='map' style='width:300px; height:300px;'></div></div>"; 
+                                        document.getElementById("mainDash").innerHTML = element2 + element.innerHTML;
+                                            break;
+                                          }
+                                        }
+
+
+                                        // var element2 = "<button class='accordion'>" + data2[index].businessname + "</button><div class='panel'><table><tr><td class='discount'>15% off sandwich</td><td class='discount'>15% off sandwich</td><td class='discount'>15% off sandwich</td></tr></table><p>" + data2[index].Address + "</p><div id='map' style='width:300px; height:300px;'></div></div>"; 
+
+                                        //document.getElementById("mainDash").innerHTML = element2 + element.innerHTML;
+                                        var acc = document.getElementsByClassName("accordion");
+                                        var i;
+
+                                        for (i = 0; i < acc.length; i++) {
+                                          acc[i].onclick = function(){
+                                            if(pause == false) {
+                                              pause = true;
+                                            } else {
+                                              pause = false;
+                                            }
+                                            this.classList.toggle("active");
+                                            this.nextElementSibling.classList.toggle("show");
+                                          }
+                                        }
+
+                                        var map = L.map('map', {
+                                            layers: MQ.mapLayer(),
+                                            center: [data.locations[1].latLng.lat, data.locations[1].latLng.lng],
+                                            zoom: 12
+                                        });
+
+                                        // MQ.geocode({ map: map })
+                                        //     .search(data.locations[1].latLng.lat+ ", " + data.locations[1].latLng.lng);
+                                        index++;
+                                      }
+                                    },
+                                    type: 'GET'
+                                  });
+                                },
+                                type: 'POST'
+                            });
+                        }
+                    },
+                    type: 'GET'
+                });
+            }
+
+            function onError(error) {
+              alert('code: '    + error.code    + '\n' +
+                    'message: ' + error.message + '\n');
+            }
+      </script>
+  </head>
+  <body>
+    <p style="text-align:center;"><img height="20%" width="25%" src="img/ourlogo.png"></p>
+    <nav class="w3-sidenav" style="display:none" id="mySidenav">
+      <a href="javascript:void(0)" onclick="w3_close()" class="idnav">Close &times;</a>
+      <a href="dashboard.html" id="idnav">Home</a>
+      <a href="#" id="idnav">Profile</a>
+      <a href="#" id="idnav">Settings</a>
+      <a href="logout.html"id="idnav">Logout</a>
+    </nav>
+
+    <header class="w3-container" style="background-color:#F8F9F9;">
+      <span id="opennav" onclick="w3_open()">&#9776;</span><!--nav button-->
+      <h1 id="idwelcome">Welcome DashBoard</h1>
+    </header>
+    <!--Displays Deals-->
+    <h2>Deals For You!</h2>
+    <div id="mainDash">
+    </div>
+      <script>
+      function w3_open() {
+          document.getElementById("mySidenav").style.display = "block";
+      }
+      function w3_close() {
+          document.getElementById("mySidenav").style.display = "none";
+      }
+      </script>
+  </body>
+</html>

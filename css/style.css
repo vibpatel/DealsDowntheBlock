@@ -1,0 +1,131 @@
+/*LOGIN PAGE*/
+body{
+  background-color:#58D68D;
+  margin-top: 20px;
+  font-family: "Open Sans";
+}
+
+h2{
+  text-align:center;
+  font-size:30px;
+font-family: "Open Sans";
+}
+
+span{font-size:27px;}
+
+#idform1, #idform2{
+  text-align: left;
+font-family: "Open Sans";
+}
+
+.form{
+  margin:30px;text-align:center;
+  background-color: #F8F9F9;
+  -webkit-border-radius: 5px;
+  padding: 13px;
+  padding: 10px 10px 10px 10px;}
+
+#idpass, #iduser{
+  height:30px;
+  font-size:20px;
+font-family: "Open Sans";
+  -webkit-border-radius: 3px;
+}
+
+  input[type=submit]{
+    height:30px;
+    font-size:20px;}
+
+  input[type=submit]:hover{
+    background-color: #58D68D;}
+
+    input[type=text], input[type=password] {
+      border: 2px solid black;
+      border-radius: 7px;
+  }
+
+  input[type=text]:focus, input[type=password]:focus {
+      outline: none;
+      border-color: #58D68D;
+      box-shadow: 0 0 10px #58D68D;
+  }
+/*DASHBOARD PAGE*/
+#idnav{
+  font-size:27px;
+font-family: "Open Sans";
+
+}
+#idwelcome{
+  font-size: 28px;
+  display: inline;
+font-family: "Open Sans";
+  text-align:center;
+  padding: 3px;
+}
+
+#openav{
+  float:left;
+  display:inline;
+}
+
+button.accordion {
+    background-color: #EBEDEF;
+font-family: "Open Sans";
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: center;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+    -webkit-border-radius: 5px;
+}
+
+button.accordion.active, button.accordion:hover {
+    background-color: #F8F9F9;
+}
+
+div.panel {
+    padding: 0 18px;
+    display: none;
+    background-color: white;
+}
+
+div.panel.show {
+    display: block;
+    padding:10px;
+}
+
+/*LOGOUT PAGE*/
+#exit{
+  text-align: center;
+  width=100%;
+
+}
+
+.discount {
+  border: 1px solid #000;
+  padding: 10px;
+  text-align: center;
+  width: 80px;
+  height: 30px;
+}
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+#map {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#loginmain {
+  margin-left: auto;
+  margin-right: auto;
+}
+
