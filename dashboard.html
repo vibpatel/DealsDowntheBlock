@@ -80,11 +80,7 @@
 
                                         for (i = 0; i < acc.length; i++) {
                                           acc[i].onclick = function(){
-                                            if(pause == false) {
-                                              pause = true;
-                                            } else {
-                                              pause = false;
-                                            }
+                                            (!pause ? pause = true : pause = false)
                                             this.classList.toggle("active");
                                             this.nextElementSibling.classList.toggle("show");
                                           }
