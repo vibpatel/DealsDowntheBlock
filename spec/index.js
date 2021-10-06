@@ -16,35 +16,35 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-describe('app', function() {
-    describe('initialize', function() {
-        it('should bind deviceready', function() {
-            runs(function() {
+describe('app', () => {
+    describe('initialize', () => {
+        it('should bind deviceready', () => {
+            runs(() => {
                 spyOn(app, 'onDeviceReady');
                 app.initialize();
                 helper.trigger(window.document, 'deviceready');
             });
 
-            waitsFor(function() {
+            waitsFor(() => {
                 return (app.onDeviceReady.calls.length > 0);
             }, 'onDeviceReady should be called once', 500);
 
-            runs(function() {
+            runs(() => {
                 expect(app.onDeviceReady).toHaveBeenCalled();
             });
         });
     });
 
-    describe('onDeviceReady', function() {
-        it('should report that it fired', function() {
+    describe('onDeviceReady', () => {
+        it('should report that it fired', () => {
             spyOn(app, 'receivedEvent');
             app.onDeviceReady();
             expect(app.receivedEvent).toHaveBeenCalledWith('deviceready');
         });
     });
 
-    describe('receivedEvent', function() {
-        beforeEach(function() {
+    describe('receivedEvent', () => {
+        beforeEach(() => {
             var el = document.getElementById('stage');
             el.innerHTML = ['<div id="deviceready">',
                             '    <p class="event listening">Listening</p>',
@@ -52,13 +52,13 @@ describe('app', function() {
                             '</div>'].join('\n');
         });
 
-        it('should hide the listening element', function() {
+        it('should hide the listening element', () => {
             app.receivedEvent('deviceready');
             var displayStyle = helper.getComputedStyle('#deviceready .listening', 'display');
             expect(displayStyle).toEqual('none');
         });
 
-        it('should show the received element', function() {
+        it('should show the received element', () => {
             app.receivedEvent('deviceready');
             var displayStyle = helper.getComputedStyle('#deviceready .received', 'display');
             expect(displayStyle).toEqual('block');
